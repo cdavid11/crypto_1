@@ -16,7 +16,7 @@ public class ctrdec implements Runnable
 	int thread_start;
 	int num_blocks;	
 
-	/*Syncronized method to get the start values of each thread {0..3} in this case as we're assuming
+	/*Syncronized method to get the start values of each thread {1..4} in this case as we're assuming
 	 * a 4 core processor*/
 	public synchronized int get_start(){
 
@@ -53,7 +53,7 @@ public class ctrdec implements Runnable
 
 
 			/*Take IV + my_block and send it through the pseudorandom function. Take output and XOR
-			 * with plaintext block. Truncate the last block to be the same as message size.*/
+			 * with ciphertext block.*/
 			try{
 				AES_Out = ctfuncs.encrypt_data(my_IV, key_data);
 				plain_block = ctfuncs.xor_bytes(AES_Out, input_blocks[my_block]);
@@ -69,7 +69,7 @@ public class ctrdec implements Runnable
 			}
 
 			/*Increment this threads block by 4, check to see if this is too large
-			 *va:63: and then increment the IV by 4 if not, break otherwise*/
+			and then increment the IV by 4 if not, break otherwise*/
 			my_block += 4;
 			if (my_block > num_blocks) break;
 			my_IV = ctfuncs.increment_by(my_IV,4);
@@ -118,7 +118,6 @@ public class ctrdec implements Runnable
 			for (int j = 0; j < C.plain_blocks[i].length; j++){
 				plain_text[(BLOCK_SIZE * i) + j] = C.plain_blocks[i][j];
 				
-			//	System.out.println("Bit #: " + ((BLOCK_SIZE * i) + j));
 				if ((BLOCK_SIZE * i) + j == (C.input_size - BLOCK_SIZE - 1)){
 
 					at_end = true;
