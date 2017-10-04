@@ -293,12 +293,11 @@ public class ctfuncs
 		
 		byte padding = (byte)(data_size - msg_length);
 		
-		for( int i = msg_length; i < data.length*BLOCK_SIZE; i++ ) 
+
+		for( int i = msg_length; i < data_size; i++ ) 
 		{
-			if ( data[i/BLOCK_SIZE][i%BLOCK_SIZE] == 0 )
-			{
-				data[i/BLOCK_SIZE][i%BLOCK_SIZE] = padding;
-			}
+			data[i/BLOCK_SIZE][i%BLOCK_SIZE] = padding;
+
 		} 		
 		return data;
 	}
@@ -308,9 +307,11 @@ public class ctfuncs
 	 */
 	public static byte[] unpadding( byte[] data )
 	{		
-		int last_byte = data.length;
 
-		int unpadded_length = BLOCK_SIZE - data[last_byte-1];
+		int last_byte = data.length - 1;
+
+		int unpadded_length = BLOCK_SIZE - data[last_byte];
+
 		
 		byte[] unpadded_data = new byte[unpadded_length];
 		
@@ -318,11 +319,27 @@ public class ctfuncs
 		{
 			unpadded_data[i] = data[i];
 		}
-		
+
+				
 		return unpadded_data;
+		
 			
 	}
 	
+	
+	public static int padding_length( byte[] data )
+	{		
+		int last_byte = data.length - 1;
+
+		int padding_length = (int)data[last_byte];
+				
+		return padding_length;
+		
+			
+	}
+	
+	
+
 	/*
 	 * Appends IV to cipher text message
 	 */
