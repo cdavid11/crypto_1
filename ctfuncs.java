@@ -19,9 +19,6 @@ public class ctfuncs
 		Constructs a secret key from the given byte array.*/
 		SecretKeySpec skeySpec = new SecretKeySpec(key, "AES");
 
-		
-		ctfuncs.test_printing(key);
-
 
 		//provide details for mode and padding scheme
 		Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
