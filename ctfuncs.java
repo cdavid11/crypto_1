@@ -18,8 +18,10 @@ public class ctfuncs
 		/*SecretKeySpec(byte[] key, String algorithm)
 		Constructs a secret key from the given byte array.*/
 		SecretKeySpec skeySpec = new SecretKeySpec(key, "AES");
+
 		
 		ctfuncs.test_printing(key);
+
 
 		//provide details for mode and padding scheme
 		Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
@@ -77,7 +79,9 @@ public class ctfuncs
 			{
 				i++;
 				
+
 				data =  read_hex_file(args[i]);
+
 				
 				break;
 			}
@@ -214,6 +218,7 @@ public class ctfuncs
 		}
 	}
 	
+
 	public static byte[] read_hex_file(String filename) throws Exception
 	{
 		InputStream is = null;
@@ -268,6 +273,7 @@ public class ctfuncs
 	}
 	
 	
+
 	/*
 	 * Writes data to chosen file
 	 */
@@ -450,18 +456,22 @@ public class ctfuncs
 	 */
 	public static synchronized void test_printing( byte[] data )
 	{
+
 		int i = 0;
 		for(byte b:data) {
 	         i++;
+
 	        // convert byte to character
 	        char c = (char)b;
 			 
 	        // prints character
 			   System.out.println(b + ":" + c);
 	     }
+
 		System.out.print("Size: ");
 		System.out.print(i);
 		System.out.println();
+
 		System.out.println("------------------------");;
 	}
 	
