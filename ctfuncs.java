@@ -18,6 +18,8 @@ public class ctfuncs
 		/*SecretKeySpec(byte[] key, String algorithm)
 		Constructs a secret key from the given byte array.*/
 		SecretKeySpec skeySpec = new SecretKeySpec(key, "AES");
+		
+		ctfuncs.test_printing(key);
 
 		//provide details for mode and padding scheme
 		Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
@@ -75,7 +77,7 @@ public class ctfuncs
 			{
 				i++;
 				
-				data =  read_file(args[i]);
+				data =  read_hex_file(args[i]);
 				
 				break;
 			}
@@ -211,6 +213,60 @@ public class ctfuncs
 			 }
 		}
 	}
+	
+	public static byte[] read_hex_file(String filename) throws Exception
+	{
+		InputStream is = null;
+				
+		byte[] data;
+		
+		try
+		{ 
+			File file = new File(filename);
+						
+			FileReader fr = new FileReader(filename);
+
+			// Always wrap FileReader in BufferedReader.
+			BufferedReader br = new BufferedReader(fr);
+			
+			long file_size = file.length();
+			
+			//have to divide by 2 since it is in hex (2 characters = 1 byte)
+			data = new byte[(int)file_size/2];
+			
+			String key_text = br.readLine();
+
+			
+			String hex_byte_string = new String();
+			
+			for (int i = 0; i < file_size; i += 2)
+			{
+				hex_byte_string = key_text.substring(i, i+2);
+				
+				data[i/2] = (byte)Integer.parseInt(hex_byte_string, 16);
+				
+			}
+									
+			br.close();
+			
+			return data;
+			
+		}
+		catch (Exception e)
+		{
+			System.err.format("Exception occurred trying to read '%s'.", filename);
+			e.printStackTrace();
+			return null;
+		}
+		finally
+		{
+			 if(is!=null)
+			 {
+				 is.close();
+			 }
+		}
+	}
+	
 	
 	/*
 	 * Writes data to chosen file
@@ -394,15 +450,18 @@ public class ctfuncs
 	 */
 	public static synchronized void test_printing( byte[] data )
 	{
+		int i = 0;
 		for(byte b:data) {
-	         
+	         i++;
 	        // convert byte to character
 	        char c = (char)b;
 			 
 	        // prints character
 			   System.out.println(b + ":" + c);
 	     }
-		
+		System.out.print("Size: ");
+		System.out.print(i);
+		System.out.println();
 		System.out.println("------------------------");;
 	}
 	
