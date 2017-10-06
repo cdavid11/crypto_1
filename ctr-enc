@@ -1,0 +1,29 @@
+#!/bin/bash
+
+javac ctrenc.java
+v_exist=0
+while getopts :k:i:o:v: option
+	do
+		case "$option" in
+		k)
+			keyfile="$OPTARG"
+			echo "Got keyfile: $keyfile"
+			;;
+		i)
+			infile="$OPTARG"
+			echo "Got infile: $infile"
+			;;
+		o)	outfile="$OPTARG"
+			echo "Got outfile: $outfile"
+			;;
+		v)  ivfile="$OPTARG"
+			v_exist=1
+			echo "Got ivfile: $ivfile"
+			;;
+			esac
+	done
+if [ "$v_exist" = "1" ]; then
+	java ctrenc -k $keyfile -i $infile -o $outfile -v $ivfile
+else
+	java ctrenc -k $keyfile -i $infile -o $outfile
+fi
